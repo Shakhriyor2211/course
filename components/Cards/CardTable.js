@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { createPopper } from "@popperjs/core";
 
 // components
 
-import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import { default as NumberFormat } from "react-number-format";
+import Link from "next/link";
+import History from "components/Payment/history";
+import ChangePrice from "components/Payment/changePrice";
+import CourseChange from "components/Course/courseChange";
+import DeleteStudent from "components/Course/deleteStudent";
 
-export default function CardTable({ color }) {
+export default function CardTable({ color, users }) {
+  let lesson_number = parseInt(48 / 12 + 1);
+  const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  function sum(payments, total_price, start) {
+    let s = 0;
+
+    let payment = [];
+
+    payments.forEach((element) => {
+      s += element.price;
+    });
+
+    for (let i = 1; i <= 10; i++) {
+      if (i < start) {
+        payment.push({ paid: "-/-", status: "" });
+      } else if (total_price < s) {
+        s -= total_price;
+        payment.push({ paid: total_price, status: "text-emerald-500" });
+      } else if (total_price > s && s >= 0) {
+        let a = null;
+        if (lesson_number >= i) {
+          if (s >= 0 && lesson_number >= i) {
+            a = "text-red-600";
+          }
+        }
+        payment.push({ paid: s, status: a });
+        s = 0;
+      } else {
+        payment.push({ paid: 0, status: "" });
+      }
+    }
+    return payment;
+  }
   return (
     <>
       <div
@@ -14,404 +53,113 @@ export default function CardTable({ color }) {
           (color === "light" ? "bg-white" : "bg-blueGray-700 text-white")
         }
       >
-        <div className="rounded-t mb-0 px-4 py-3 border-0">
+        <div className="rounded-t mb-0 pl-4 pt-4 border-0">
           <div className="flex flex-wrap items-center">
-            <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+            <div className="relative w-full max-w-full flex-grow flex-1">
               <h3
                 className={
                   "font-semibold text-lg " +
                   (color === "light" ? "text-blueGray-700" : "text-white")
                 }
               >
-                Card Tables
+                Student Payments
               </h3>
             </div>
           </div>
         </div>
-        <div className="block w-full overflow-x-auto">
+        <div className="block w-full overflow-x-auto p-4">
           {/* Projects table */}
-          <table className="items-center w-full bg-transparent border-collapse">
+          <table className="items-center w-full p-4 bg-transparent border-collapse">
             <thead>
               <tr>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                >
-                  Project
+                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
+                  ID
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                >
-                  Budget
+                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
+                  Name
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                >
-                  Status
+
+                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
+                  Phone
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                >
-                  Users
+
+                {month.map((item, i) => {
+                  return (
+                    <th
+                      key={i}
+                      className={
+                        "align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left " +
+                        (item === lesson_number && "bg-emerald-500 text-white")
+                      }
+                    >
+                      {item}
+                    </th>
+                  );
+                })}
+                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
+                  Summa
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                >
-                  Completion
+                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
+                  Action
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                  }
-                ></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  <img
-                    src="/img/bootstrap.jpg"
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span
-                    className={
-                      "ml-3 font-bold " +
-                      +(color === "light" ? "text-blueGray-600" : "text-white")
-                    }
-                  >
-                    Argon Design System
-                  </span>
-                </th>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  $2,500 USD
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <i className="fas fa-circle text-orange-500 mr-2"></i> pending
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex">
-                    <img
-                      src="/img/team-1-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                    ></img>
-                    <img
-                      src="/img/team-2-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-3-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-4-470x470.png"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex items-center">
-                    <span className="mr-2">60%</span>
-                    <div className="relative w-full">
-                      <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                        <div
-                          style={{ width: "60%" }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                  <TableDropdown />
-                </td>
-              </tr>
-              <tr>
-                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  <img
-                    src="/img/angular.jpg"
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span
-                    className={
-                      "ml-3 font-bold " +
-                      +(color === "light" ? "text-blueGray-600" : "text-white")
-                    }
-                  >
-                    Angular Now UI Kit PRO
-                  </span>
-                </th>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  $1,800 USD
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
-                  completed
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex">
-                    <img
-                      src="/img/team-1-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                    ></img>
-                    <img
-                      src="/img/team-2-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-3-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-4-470x470.png"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex items-center">
-                    <span className="mr-2">100%</span>
-                    <div className="relative w-full">
-                      <div className="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
-                        <div
-                          style={{ width: "100%" }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                  <TableDropdown />
-                </td>
-              </tr>
-              <tr>
-                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  <img
-                    src="/img/sketch.jpg"
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span
-                    className={
-                      "ml-3 font-bold " +
-                      +(color === "light" ? "text-blueGray-600" : "text-white")
-                    }
-                  >
-                    Black Dashboard Sketch
-                  </span>
-                </th>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  $3,150 USD
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <i className="fas fa-circle text-red-500 mr-2"></i> delayed
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex">
-                    <img
-                      src="/img/team-1-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                    ></img>
-                    <img
-                      src="/img/team-2-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-3-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-4-470x470.png"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex items-center">
-                    <span className="mr-2">73%</span>
-                    <div className="relative w-full">
-                      <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
-                        <div
-                          style={{ width: "73%" }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                  <TableDropdown />
-                </td>
-              </tr>
-              <tr>
-                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  <img
-                    src="/img/react.jpg"
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span
-                    className={
-                      "ml-3 font-bold " +
-                      +(color === "light" ? "text-blueGray-600" : "text-white")
-                    }
-                  >
-                    React Material Dashboard
-                  </span>
-                </th>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  $4,400 USD
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <i className="fas fa-circle text-teal-500 mr-2"></i> on
-                  schedule
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex">
-                    <img
-                      src="/img/team-1-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                    ></img>
-                    <img
-                      src="/img/team-2-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-3-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-4-470x470.png"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex items-center">
-                    <span className="mr-2">90%</span>
-                    <div className="relative w-full">
-                      <div className="overflow-hidden h-2 text-xs flex rounded bg-teal-200">
-                        <div
-                          style={{ width: "90%" }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                  <TableDropdown />
-                </td>
-              </tr>
-              <tr>
-                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  <img
-                    src="/img/vue.jpg"
-                    className="h-12 w-12 bg-white rounded-full border"
-                    alt="..."
-                  ></img>{" "}
-                  <span
-                    className={
-                      "ml-3 font-bold " +
-                      +(color === "light" ? "text-blueGray-600" : "text-white")
-                    }
-                  >
-                    React Material Dashboard
-                  </span>
-                </th>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  $2,200 USD
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <i className="fas fa-circle text-emerald-500 mr-2"></i>{" "}
-                  completed
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex">
-                    <img
-                      src="/img/team-1-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                    ></img>
-                    <img
-                      src="/img/team-2-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-3-800x800.jpg"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                    <img
-                      src="/img/team-4-470x470.png"
-                      alt="..."
-                      className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    ></img>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  <div className="flex items-center">
-                    <span className="mr-2">100%</span>
-                    <div className="relative w-full">
-                      <div className="overflow-hidden h-2 text-xs flex rounded bg-emerald-200">
-                        <div
-                          style={{ width: "100%" }}
-                          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                  <TableDropdown />
-                </td>
-              </tr>
+              {users.map((el) => {
+                const payments = sum(
+                  el.payment,
+                  el.oquvchi_narxi,
+                  el.start_course
+                );
+                let check = true;
+                if (
+                  el.first_name == "Unknown" &&
+                  el.last_name == "Unknown" &&
+                  el.phone_number == "Unknown"
+                ) {
+                  check = false;
+                }
+
+                return check ? (
+                  <tr key={el.id}>
+                    <th className="font-bold align-middle text-xs whitespace-nowrap p-2 text-center">
+                      {el.id}
+                    </th>
+                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
+                      {el.first_name} {el.last_name}
+                    </td>
+                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
+                      {el.phone_number}
+                    </td>
+                    {payments.map((payment, i) => {
+                      return (
+                        i < 10 && (
+                          <Payment
+                            paid={payment.paid}
+                            status={payment.status}
+                            key={i}
+                            index={i}
+                          />
+                        )
+                      );
+                    })}
+                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
+                      <NumberFormat
+                        value={el.oquvchi_narxi}
+                        className="foo font-bold"
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        renderText={(value, props) => (
+                          <div {...props}>{value}</div>
+                        )}
+                      />
+                    </td>
+                    <td className="align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
+                      <DropDown id={el.id} data={el} />
+                    </td>
+                  </tr>
+                ) : null;
+              })}
             </tbody>
           </table>
         </div>
@@ -426,4 +174,161 @@ CardTable.defaultProps = {
 
 CardTable.propTypes = {
   color: PropTypes.oneOf(["light", "dark"]),
+};
+
+function Payment({ paid, status }) {
+  return (
+    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
+      <div className={`flex items-center justify-center ${status}`}>
+        {paid !== "-/-" ? (
+          <>
+            <i className="fas fa-circle mr-1"></i>
+            <NumberFormat
+              value={paid}
+              className="foo"
+              displayType={"text"}
+              thousandSeparator={true}
+              renderText={(value, props) => <div {...props}>{value}</div>}
+            />
+          </>
+        ) : (
+          <p>{paid}</p>
+        )}
+      </div>
+    </td>
+  );
+}
+const DropDown = ({ data, id, priceState, submitState }) => {
+  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
+  const [historyVisible, setHistoryVisible] = useState(false);
+
+  const btnDropdownRef = React.createRef();
+  const popoverDropdownRef = React.createRef();
+  const openDropdownPopover = () => {
+    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+      placement: "left-start",
+    });
+    setDropdownPopoverShow(true);
+  };
+  const closeDropdownPopover = () => {
+    setDropdownPopoverShow(false);
+  };
+  const [changePrice, setChangePrice] = useState(false);
+  const [changeCourse, setChangeCourse] = useState(false);
+  const [deleteStudent, setDeleteStudent] = useState(false);
+  return (
+    <>
+      {deleteStudent && (
+        <DeleteStudent modalState={setDeleteStudent} id={id} users={data} />
+      )}
+      {changePrice && (
+        <ChangePrice
+          modalState={setChangePrice}
+          users={data}
+          priceState={priceState}
+        />
+      )}
+      {changeCourse && (
+        <CourseChange
+          modalState={setChangeCourse}
+          submit={submitState}
+          id={id}
+          users={data}
+        />
+      )}
+      {dropdownPopoverShow && (
+        <div
+          className="fixed inset-0"
+          onClick={() => {
+            setDropdownPopoverShow(false);
+          }}
+        ></div>
+      )}
+      <div
+        className="text-blueGray-500 py-1 px-3"
+        ref={btnDropdownRef}
+        onClick={(e) => {
+          e.preventDefault();
+          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
+        }}
+      >
+        <i className="fas fa-ellipsis-v"></i>
+      </div>
+      <div
+        ref={popoverDropdownRef}
+        className={
+          (dropdownPopoverShow ? "block " : "hidden ") +
+          "bg-white text-base relative z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48 border"
+        }
+      >
+        <Link href={`/admin/update/${data.id}`}>
+          <a
+            className={
+              "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            }
+          >
+            O'zgartirish
+          </a>
+        </Link>
+
+        <div
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 cursor-pointer"
+          }
+          onClick={() => {
+            setHistoryVisible(true);
+            setDropdownPopoverShow(false);
+          }}
+        >
+          To'lovlar
+        </div>
+        <div
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 cursor-pointer"
+          }
+          onClick={() => {
+            setChangePrice(true);
+            setDropdownPopoverShow(false);
+          }}
+        >
+          Chegirma
+        </div>
+        <div
+          className={
+            "text-sm cursor-pointer py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-emerald-500"
+          }
+          onClick={() => {
+            setChangeCourse(true);
+            setDropdownPopoverShow(false);
+          }}
+        >
+          Guruhni almashtirish
+        </div>
+        <div
+          className={
+            "text-sm cursor-pointer py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-red-600"
+          }
+          onClick={() => {
+            setDeleteStudent(true);
+            setDropdownPopoverShow(false);
+          }}
+        >
+          Guruhdan chiqarish
+        </div>
+      </div>
+      {historyVisible ? (
+        <>
+          <div
+            className="fixed inset-0 z-90"
+            onClick={() => {
+              setHistoryVisible(false);
+            }}
+          ></div>
+          <div className="fixed top-0 bottom-0 bg-white z-100 right-0 px-6 py-4 shadow-lg text-left overflow-y-scroll min-w-300-px">
+            <History id={id} historyState={setHistoryVisible} />
+          </div>
+        </>
+      ) : null}
+    </>
+  );
 };

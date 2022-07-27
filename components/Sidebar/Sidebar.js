@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
 import { useRouter } from "next/router";
-
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
-  const [collapseShow, setCollapseShow] = React.useState("hidden");
+  const [collapseShow, setCollapseShow] = useState("hidden");
   const router = useRouter();
+  const [tableShow, setTableShow] = useState(false);
+  const [data, setData] = useState(null);
+  const [leave, setLeave] = useState(null);
+  useEffect(() => {
+    axios
+      .get("/api/courses/")
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    axios
+      .get("/api/leaveaccount/")
+      .then(function (response) {
+        setLeave(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   return (
     <>
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -22,11 +43,8 @@ export default function Sidebar() {
           </button>
           {/* Brand */}
           <Link href="/">
-            <a
-              href="#pablo"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            >
-              Notus NextJS
+            <a className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
+              Sun'iy idrok
             </a>
           </Link>
           {/* User */}
@@ -50,11 +68,8 @@ export default function Sidebar() {
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link href="/">
-                    <a
-                      href="#pablo"
-                      className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                    >
-                      Notus NextJS
+                    <a className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
+                      Sun'iy idrok
                     </a>
                   </Link>
                 </div>
@@ -92,7 +107,6 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link href="/admin/dashboard">
                   <a
-                    href="#pablo"
                     className={
                       "text-xs uppercase py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/dashboard") !== -1
@@ -116,7 +130,6 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link href="/admin/settings">
                   <a
-                    href="#pablo"
                     className={
                       "text-xs uppercase py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/settings") !== -1
@@ -132,31 +145,104 @@ export default function Sidebar() {
                           : "text-blueGray-300")
                       }
                     ></i>{" "}
-                    Settings
+                    Sozlamalar
                   </a>
                 </Link>
               </li>
 
-              <li className="items-center">
-                <Link href="/admin/tables">
-                  <a
-                    href="#pablo"
+              <li>
+                <div
+                  className="select-none flex items-center group cursor-pointer"
+                  onClick={() => {
+                    setTableShow(!tableShow);
+                  }}
+                >
+                  <p
                     className={
-                      "text-xs uppercase py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/tables") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                      "text-xs cursor-pointer uppercase py-3 font-bold block text-blueGray-700 group-hover:text-blueGray-500"
                     }
                   >
-                    <i
-                      className={
-                        "fas fa-table mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/tables") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Tables
+                    <i className="fas fa-table mr-2 text-sm text-blueGray-300"></i>{" "}
+                    Kurslar
+                  </p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-4 w-4 ml-4 text-blueGray-700  transition duration-500 group-hover:text-blueGray-500 transform ${
+                      tableShow && "-rotate-180"
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+                {tableShow && (
+                  <div className="text-xs uppercase font-bold flex flex-col">
+                    {data.map((el) => (
+                      <Link key={el.id} href={`/admin/tables/${el.id}`}>
+                        <a
+                          className={`block my-2 pl-6 flex items-end ${
+                            router.asPath === `/admin/tables/${el.id}/`
+                              ? "text-lightBlue-500 hover:text-lightBlue-600"
+                              : "text-blueGray-700 hover:text-blueGray-500"
+                          }`}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                            />
+                          </svg>{" "}
+                          <span>{el.name}</span>
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </li>
+
+              <li className="items-center">
+                <Link href="/admin/payment/totall/">
+                  <a
+                    className={`text-xs uppercase py-3 font-bold flex items-center group ${
+                      router.asPath === `/admin/payment/totall/`
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`h-4 w-4  group-hover:text-blueGray-500" ${
+                        router.asPath === "/admin/payment/totall/"
+                          ? "text-lightBlue-500 hover:text-lightBlue-600"
+                          : "text-blueGray-300 hover:text-blueGray-500"
+                      }`}
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                      <path
+                        fillRule="evenodd"
+                        d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+
+                    <span className="ml-2">To'lovlar Tarixi</span>
                   </a>
                 </Link>
               </li>
@@ -164,7 +250,6 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link href="/admin/maps">
                   <a
-                    href="#pablo"
                     className={
                       "text-xs uppercase py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/maps") !== -1
@@ -197,10 +282,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
                 <Link href="/auth/login">
-                  <a
-                    href="#pablo"
-                    className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  >
+                  <a className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                     <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i>{" "}
                     Login
                   </a>
@@ -209,10 +291,7 @@ export default function Sidebar() {
 
               <li className="items-center">
                 <Link href="/auth/register">
-                  <a
-                    href="#pablo"
-                    className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  >
+                  <a className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                     <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i>{" "}
                     Register
                   </a>
@@ -231,10 +310,7 @@ export default function Sidebar() {
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
                 <Link href="/landing">
-                  <a
-                    href="#pablo"
-                    className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  >
+                  <a className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                     <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>{" "}
                     Landing Page
                   </a>
@@ -243,10 +319,7 @@ export default function Sidebar() {
 
               <li className="items-center">
                 <Link href="/profile">
-                  <a
-                    href="#pablo"
-                    className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  >
+                  <a className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                     <i className="fas fa-user-circle text-blueGray-400 mr-2 text-sm"></i>{" "}
                     Profile Page
                   </a>
