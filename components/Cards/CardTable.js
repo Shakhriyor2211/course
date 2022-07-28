@@ -12,7 +12,7 @@ import CourseChange from "components/Course/courseChange";
 import DeleteStudent from "components/Course/deleteStudent";
 
 export default function CardTable({ color, users }) {
-  let lesson_number = parseInt(48 / 12 + 1);
+  let lesson_number = parseInt(users.lesson_number / 12 + 1);
   const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   function sum(payments, total_price, start) {
@@ -27,7 +27,7 @@ export default function CardTable({ color, users }) {
     for (let i = 1; i <= 10; i++) {
       if (i < start) {
         payment.push({ paid: "-/-", status: "" });
-      } else if (total_price < s) {
+      } else if (total_price <= s) {
         s -= total_price;
         payment.push({ paid: total_price, status: "text-emerald-500" });
       } else if (total_price > s && s >= 0) {
@@ -105,7 +105,7 @@ export default function CardTable({ color, users }) {
               </tr>
             </thead>
             <tbody>
-              {users.map((el) => {
+              {users.account.map((el) => {
                 const payments = sum(
                   el.payment,
                   el.oquvchi_narxi,

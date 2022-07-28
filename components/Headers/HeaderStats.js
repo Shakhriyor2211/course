@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 // components
 
-import CardStats from "components/Cards/CardStats.js";
 import { leave, newUser, warning } from "components/utils/icon";
 import Link from "next/link";
 import CourseLeave from "components/Course/courseLeave";
@@ -15,7 +14,7 @@ export default function HeaderStats({ totall }) {
 
   useEffect(() => {
     axios
-      .get(`/api/leaveaccount/`)
+      .get("/api/leaveaccount/")
       .then(function (response) {
         setUser(response.data);
       })
@@ -58,7 +57,7 @@ export default function HeaderStats({ totall }) {
                   <div className="flex-auto p-4">
                     <div className="flex flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 className="text-blueGray-400 mb-2 uppercase font-bold text-xs">
+                        <h5 className="mb-2 uppercase font-bold text-xs">
                           Yangi o'quvchilar
                         </h5>
                         <span className="font-semibold text-lg text-orange-500">
@@ -85,7 +84,7 @@ export default function HeaderStats({ totall }) {
                 <div className="flex-auto p-4">
                   <div className="flex flex-wrap">
                     <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                      <h5 className="text-blueGray-400 mb-2 uppercase font-bold text-xs">
+                      <h5 className="mb-2 uppercase font-bold text-xs">
                         Chiqib ketkanlar
                       </h5>
                       <span className="font-semibold text-lg text-red-600">
@@ -102,17 +101,14 @@ export default function HeaderStats({ totall }) {
               </div>
             </div>
             <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <Link href={"/"}>
+              <Link href={"/admin/users/all_arrear/"}>
                 <a className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
                   <div className="flex-auto p-4">
-                    <div className="flex flex-wrap">
+                    <div className="flex items-center flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 className="text-blueGray-400 mb-2 uppercase font-bold text-xs">
+                        <h5 className="mb-2 uppercase font-bold">
                           O'ta qarzdorlar
                         </h5>
-                        <span className="font-semibold text-lg text-blueGray-700">
-                          2,0000
-                        </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
                         <div className="text-white bg-red-600 p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full ">
@@ -125,17 +121,14 @@ export default function HeaderStats({ totall }) {
               </Link>
             </div>
             <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <Link href={"/"}>
+              <Link href={"/admin/users/deleted/"}>
                 <a className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
                   <div className="flex-auto p-4">
-                    <div className="flex flex-wrap">
+                    <div className="flex items-center flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 className="text-blueGray-400 mb-2 uppercase font-bold text-xs">
+                        <h5 className="mb-2 uppercase font-bold">
                           Kursni tark etkanlar
                         </h5>
-                        <span className="font-semibold text-lg text-blueGray-700">
-                          2,0000
-                        </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
                         <div className="text-white bg-red-600 p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full ">

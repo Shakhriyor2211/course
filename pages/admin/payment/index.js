@@ -3,8 +3,14 @@ import React from "react";
 import Admin from "layouts/Admin.js";
 import axios from "axios";
 import Payment from "components/Payment";
+import { useRouter } from "next/router";
 
 export default function PaymentPage(data) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <p>Loading</p>;
+  }
   return (
     <>
       <div className="flex flex-wrap">

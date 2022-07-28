@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-
 // layout for page
 
 import Admin from "layouts/Admin.js";
 import { useRouter } from "next/router";
 import NullTable from "components/Cards/NullTable";
 import axios from "axios";
+import DeleteTable from "components/Cards/DeleteTable";
 
-export default function NewStudents({ data }) {
+export default function Delete({ data }) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -20,7 +19,7 @@ export default function NewStudents({ data }) {
         <div className="w-full mb-12 px-4">
           {data.map(
             (el) =>
-              el.accounts.length > 0 && <NullTable key={el.id} table={el} />
+              el.accounts.length > 0 && <DeleteTable key={el.id} table={el} />
           )}
         </div>
       </div>
@@ -28,10 +27,12 @@ export default function NewStudents({ data }) {
   );
 }
 
-NewStudents.layout = Admin;
+Delete.layout = Admin;
 
 export const getStaticProps = async () => {
-  const { data } = await axios.get("http://127.0.0.1:8000/api/unknownaccount/");
+  const { data } = await axios.get(
+    "http://127.0.0.1:8000/api/deleteaccountlist/"
+  );
   if (!data) {
     return {
       notFound: true,

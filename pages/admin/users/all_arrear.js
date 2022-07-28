@@ -6,8 +6,9 @@ import Admin from "layouts/Admin.js";
 import { useRouter } from "next/router";
 import NullTable from "components/Cards/NullTable";
 import axios from "axios";
+import CourseAllArrear from "components/Cards/CardAllArrear";
 
-export default function NewStudents({ data }) {
+export default function AllArrear({ data }) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -18,20 +19,19 @@ export default function NewStudents({ data }) {
     <>
       <div className="flex flex-wrap mt-4">
         <div className="w-full mb-12 px-4">
-          {data.map(
-            (el) =>
-              el.accounts.length > 0 && <NullTable key={el.id} table={el} />
-          )}
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
+            <CourseAllArrear users={data} />
+          </div>
         </div>
       </div>
     </>
   );
 }
 
-NewStudents.layout = Admin;
+AllArrear.layout = Admin;
 
 export const getStaticProps = async () => {
-  const { data } = await axios.get("http://127.0.0.1:8000/api/unknownaccount/");
+  const { data } = await axios.get("http://127.0.0.1:8000/api/statusapi/");
   if (!data) {
     return {
       notFound: true,

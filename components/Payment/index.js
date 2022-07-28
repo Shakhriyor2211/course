@@ -14,7 +14,6 @@ function Payment({ data }) {
   const [paymentInp, setPaymentInp] = useState("");
   const [titleInp, setTitleInp] = useState("");
   const router = useRouter();
-  console.log(data);
   useEffect(() => {
     let newCourse = [];
     data.forEach((el) => {
@@ -28,10 +27,16 @@ function Payment({ data }) {
     data.forEach((el) => {
       if (el.id === courseValue.value) {
         el.accounts.forEach((el) => {
-          newStudents.push({
-            value: el.id,
-            label: el.first_name + " " + el.last_name,
-          });
+          if (
+            el.first_name !== "Unknown" &&
+            el.last_name !== "Unknown" &&
+            el.phone_number !== "Unknown"
+          ) {
+            newStudents.push({
+              value: el.id,
+              label: el.first_name + " " + el.last_name,
+            });
+          }
         });
       }
     });
@@ -42,13 +47,12 @@ function Payment({ data }) {
   useEffect(() => {
     setPaymentId(studentValue.value);
   }, [studentValue]);
-
+  console.log(paymentId);
   function submit(e) {
     e.preventDefault();
     axios
       .post("/api/payment/", {
         title: titleInp,
-        course: courseValue.value,
         account: paymentId,
         price: paymentInp,
       })

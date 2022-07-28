@@ -1,5 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import axios from "axios";
 
 const UserDropdown = () => {
   // dropdown props
@@ -15,11 +16,11 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
   return (
     <>
       <a
         className="text-blueGray-500 block"
-        href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -43,43 +44,34 @@ const UserDropdown = () => {
           "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
         }
       >
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
+        <span className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
           Action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Another action
-        </a>
-        <a
-          href="#pablo"
+        </span>
+
+        <span
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
           onClick={(e) => e.preventDefault()}
         >
           Something else here
-        </a>
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
+        </span>
+        <div className="h-0 my-1 border border-solid border-blueGray-100" />
+        <span
+          className="text-sm cursor-pointer inline-block py-2 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-red-600"
+          onClick={() => {
+            axios
+              .post("/api/logout/")
+              .then(function (response) {
+                router.replace("/login/");
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }}
         >
-          Seprated link
-        </a>
+          Log out
+        </span>
       </div>
     </>
   );
