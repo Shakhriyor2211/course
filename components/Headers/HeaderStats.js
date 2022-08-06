@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // components
 
@@ -10,26 +10,43 @@ import axios from "axios";
 export default function HeaderStats({ totall }) {
   const [courseLeave, setCourseLeave] = useState(false);
   const [user, setUser] = useState([]);
-  const [sumLeave, setSumLeave] = useState(0);
+  const [data, setData] = useState([]);
+  const [removed, setRemoved] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
+
     axios
       .get("/api/leaveaccount/")
       .then(function (response) {
         setUser(response.data);
+        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+    axios
+      .get("/api/statusapi/")
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
-  useEffect(() => {
+
+  const sum = useMemo(() => {
     let s = 0;
     user.forEach((item) => {
       if (item.leave_account > 0) {
         s += item.leave_account;
       }
     });
-    setSumLeave(s);
+    return s;
   }, [user]);
 
   return (
@@ -47,9 +64,8 @@ export default function HeaderStats({ totall }) {
           </div>
         </>
       )}
-      <div className="px-4 md:px-10 mx-auto w-full">
+      <div className="px-4 md:px-10 mx-auto w-full mt-8">
         <div>
-          {/* Card stats */}
           <div className="flex flex-wrap">
             <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
               <Link href={"/admin/users/new_users/"}>
@@ -88,7 +104,7 @@ export default function HeaderStats({ totall }) {
                         Chiqib ketkanlar
                       </h5>
                       <span className="font-semibold text-lg text-red-600">
-                        {sumLeave}
+                        {sum}
                       </span>
                     </div>
                     <div className="relative w-auto pl-4 flex-initial">
@@ -106,13 +122,16 @@ export default function HeaderStats({ totall }) {
                   <div className="flex-auto p-4">
                     <div className="flex items-center flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 className="mb-2 uppercase font-bold">
+                        <h5 className="mb-2 uppercase font-bold text-xs">
                           O'ta qarzdorlar
                         </h5>
+                        <span className="font-semibold text-lg text-red-600">
+                          {data.ota_qarzdorlar?.length}
+                        </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
                         <div className="text-white bg-red-600 p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full ">
-                          <i className="fas fa-chart-pie"></i>
+                          <i className="fas fa-users"></i>
                         </div>
                       </div>
                     </div>
@@ -126,7 +145,7 @@ export default function HeaderStats({ totall }) {
                   <div className="flex-auto p-4">
                     <div className="flex items-center flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 className="mb-2 uppercase font-bold">
+                        <h5 className="mb-2 uppercase text-sm font-bold">
                           Kursni tark etkanlar
                         </h5>
                       </div>

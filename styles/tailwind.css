@@ -18,7 +18,9 @@
 .w-60 {
   width: 15rem;
 }
-
+.w-72 {
+  width: 32rem;
+}
 .fill-white {
   fill: white;
 }
@@ -2713,11 +2715,9 @@ select {
 .max-h-860-px {
   max-height: 860px;
 }
-
-.max-w-sm {
-  max-width: 24rem;
+.max-w-7xl {
+  max-width: 80rem;
 }
-
 .max-w-md {
   max-width: 28rem;
 }
@@ -3460,7 +3460,22 @@ select {
   position: -webkit-sticky;
   position: sticky;
 }
+.max-w-sm {
+  max-width: 24rem;
+}
+.right-full {
+  right: 100%;
+}
+.left-full {
+  left: 100%;
+}
+.bottom-full {
+  bottom: 100%;
+}
 
+.top-full {
+  top: 100%;
+}
 .top-0 {
   top: 0px;
 }

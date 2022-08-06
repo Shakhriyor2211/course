@@ -1,18 +1,35 @@
 // layout for page
 
 import Admin from "layouts/Admin.js";
-import { useRouter } from "next/router";
-import NullTable from "components/Cards/NullTable";
-import axios from "axios";
+
 import DeleteTable from "components/Cards/DeleteTable";
+import useAsyncLoader from "components/useAsyncLoader";
+import { useLoggedInOrRiderect } from "components/auth";
 
-export default function Delete({ data }) {
-  const router = useRouter();
+export default function Delete() {
+  const isLoggedIn = useLoggedInOrRiderect();
 
-  if (router.isFallback) {
-    return <p>Loading</p>;
+  const { isLoading, notFound, error, data } = useAsyncLoader({
+    url: "/api/deleteaccountlist/",
+  });
+
+  if (!isLoggedIn) {
+    return null;
   }
 
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  if (isLoading) {
+    return "Loading";
+  }
+  if (notFound) {
+    return "Not Found";
+  }
+  if (error) {
+    return "ERROR";
+  }
   return (
     <>
       <div className="flex flex-wrap mt-4">
@@ -28,18 +45,3 @@ export default function Delete({ data }) {
 }
 
 Delete.layout = Admin;
-
-export const getStaticProps = async () => {
-  const { data } = await axios.get(
-    "http://127.0.0.1:8000/api/deleteaccountlist/"
-  );
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { data },
-  };
-};

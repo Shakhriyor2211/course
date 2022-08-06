@@ -1,7 +1,6 @@
 import { default as NumberFormat } from "react-number-format";
 
 function CourseArrear({ users }) {
-  console.log(users);
   return (
     <div className="rounded-t mb-0 pl-4 pt-4 border-0">
       <div className="flex flex-wrap items-center">
@@ -13,28 +12,28 @@ function CourseArrear({ users }) {
           <table className="items-center w-full p-4 bg-transparent border-collapse">
             <thead>
               <tr>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   ID
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   First name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Last name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Phone
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Qarzdorlik
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Kurs narxi
                 </th>
               </tr>
             </thead>
             <tbody>
-              {users.qarzdorlar.map((item) => {
+              {users.qarzdorlar?.map((item) => {
                 return (
                   <tr key={item.id}>
                     <th className="font-bold px1 align-middle text-sm whitespace-nowrap p-2 text-center">

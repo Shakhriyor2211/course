@@ -13,28 +13,28 @@ function CourseAllArrear({ users }) {
           <table className="items-center w-full p-4 bg-transparent border-collapse">
             <thead>
               <tr>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   ID
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   First name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Last name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Phone
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Qarzdorlik
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                   Kurs narxi
                 </th>
               </tr>
             </thead>
             <tbody>
-              {users.ota_qarzdorlar.map((item) => {
+              {users?.ota_qarzdorlar?.map((item) => {
                 return (
                   <tr key={item.id}>
                     <th className="font-bold px1 align-middle text-sm whitespace-nowrap p-2 text-center">

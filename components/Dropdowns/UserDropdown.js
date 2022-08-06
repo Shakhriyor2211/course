@@ -1,16 +1,13 @@
-import React from "react";
-import { createPopper } from "@popperjs/core";
 import axios from "axios";
+import { useSetUser, useUser } from "components/auth";
+import router from "next/router";
+import { useState } from "react";
 
 const UserDropdown = () => {
-  // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
+  const user = useUser();
+  const setUser = useSetUser();
   const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: "bottom-start",
-    });
     setDropdownPopoverShow(true);
   };
   const closeDropdownPopover = () => {
@@ -19,59 +16,61 @@ const UserDropdown = () => {
 
   return (
     <>
-      <a
-        className="text-blueGray-500 block"
-        ref={btnDropdownRef}
-        onClick={(e) => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-        }}
-      >
-        <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            <img
-              alt="..."
-              className="w-full rounded-full align-middle border-none shadow-lg"
-              src="/img/team-1-800x800.jpg"
-            />
-          </span>
-        </div>
-      </a>
-      <div
-        ref={popoverDropdownRef}
-        className={
-          (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
-        }
-      >
-        <span className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-          Action
-        </span>
-
-        <span
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
-        </span>
-        <div className="h-0 my-1 border border-solid border-blueGray-100" />
-        <span
-          className="text-sm cursor-pointer inline-block py-2 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-red-600"
-          onClick={() => {
-            axios
-              .post("/api/logout/")
-              .then(function (response) {
-                router.replace("/login/");
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+      {dropdownPopoverShow && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={closeDropdownPopover}
+        ></div>
+      )}
+      <div className="relative">
+        <div
+          className="text-blueGray-500 select-none block cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            dropdownPopoverShow
+              ? closeDropdownPopover()
+              : openDropdownPopover();
           }}
         >
-          Log out
-        </span>
+          <div className="items-center flex">
+            <span className="w-12 h-12 text-sm text-white bg-purple-500 inline-flex items-center justify-center rounded-full">
+              SM
+            </span>
+          </div>
+        </div>
+        <div
+          className={`bg-white text-base absolute right-0 z-50 m-4 py-2  text-left rounded shadow-lg min-w-48 ${
+            dropdownPopoverShow ? "block " : "hidden"
+          }`}
+        >
+          <span className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+            {user?.first_name + " " + user?.last_name}
+          </span>
+
+          <span className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+            @{user?.username}
+          </span>
+
+          <div className="h-0 my-1 border border-solid border-blueGray-100" />
+          <span
+            className="text-sm cursor-pointer inline-block py-2 px-4 font-semibold w-full whitespace-nowrap bg-transparent text-red-600"
+            onClick={() => {
+              axios
+                .post("/api/logout/", {
+                  username: user.username,
+                })
+                .then(function (response) {
+                  setUser(null);
+                  router.replace(router.query.next ?? "/");
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            }}
+          >
+            Log out
+          </span>
+        </div>
       </div>
     </>
   );

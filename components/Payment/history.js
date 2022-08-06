@@ -45,13 +45,13 @@ function History({ id, historyState }) {
             <NumberFormat
               prefix="+"
               value={item.price}
-              className="foo text-sm font-semibold text-red-600"
+              className="foo text-sm font-semibold text-red-600 text-right"
               displayType={"text"}
               thousandSeparator={true}
               renderText={(value, props) => <div {...props}>{value}</div>}
             />
-            <p className="text-xs mt-1">
-              {item.created_at === null ? "" : item.created_at.slice(0, 10)}
+            <p className="text-xs mt-1 text-right">
+              {item && item.created_at.slice(0, 10)}
             </p>
           </div>
         </div>

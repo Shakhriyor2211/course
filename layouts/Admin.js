@@ -33,15 +33,12 @@ export default function Admin({ children }) {
         <AdminNavbar />
         {/* Header */}
         <div className="relative bg-blueGray-800 md:pt-32 pb-32 pt-12">
+          <HeaderLink />
           {router.asPath === "/admin/dashboard/" && (
             <HeaderStats users={users} totall={count} />
           )}
-          <HeaderLink />
         </div>
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
-          {children}
-          <FooterAdmin />
-        </div>
+        <div className="px-4 md:px-10 mx-auto w-full -m-24">{children}</div>
       </div>
     </>
   );

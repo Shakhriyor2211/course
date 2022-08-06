@@ -42,7 +42,7 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link href="/">
+          <Link href="/admin/dashboard">
             <a className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
               Sun'iy idrok
             </a>
@@ -90,7 +90,7 @@ export default function Sidebar() {
                 <input
                   type="text"
                   placeholder="Search"
-                  className="border-0 px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                  className="px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
                 />
               </div>
             </form>
@@ -164,7 +164,7 @@ export default function Sidebar() {
                     {data.map((el) => (
                       <Link key={el.id} href={`/admin/tables/${el.id}`}>
                         <a
-                          className={`block my-2 pl-6 flex items-end ${
+                          className={`my-2 pl-6 flex items-end ${
                             router.asPath === `/admin/tables/${el.id}/`
                               ? "text-lightBlue-500 hover:text-lightBlue-600"
                               : "text-blueGray-700 hover:text-blueGray-500"

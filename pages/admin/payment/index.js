@@ -1,22 +1,36 @@
 import React from "react";
 
 import Admin from "layouts/Admin.js";
-import axios from "axios";
 import Payment from "components/Payment";
-import { useRouter } from "next/router";
+import useAsyncLoader from "components/useAsyncLoader";
+import { useLoggedInOrRiderect } from "components/auth";
 
-export default function PaymentPage(data) {
-  const router = useRouter();
+export default function PaymentPage() {
+  const isLoggedIn = useLoggedInOrRiderect();
 
-  if (router.isFallback) {
-    return <p>Loading</p>;
+  const { isLoading, notFound, error, data } = useAsyncLoader({
+    url: "/api/payment/",
+  });
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  if (isLoading) {
+    return "Loading";
+  }
+  if (notFound) {
+    return "Not Found";
+  }
+  if (error) {
+    return "ERROR";
   }
   return (
     <>
       <div className="flex flex-wrap">
         <div className="w-full px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <Payment data={data.data} />
+            <Payment data={data} />
           </div>
         </div>
       </div>
@@ -25,16 +39,3 @@ export default function PaymentPage(data) {
 }
 
 PaymentPage.layout = Admin;
-
-export const getStaticProps = async () => {
-  const { data } = await axios.get("http://127.0.0.1:8000/api/payment/");
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { data },
-  };
-};

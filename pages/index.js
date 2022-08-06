@@ -4,11 +4,17 @@ import React, { useEffect } from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import { useRouter } from "next/router";
+import { useLoggedInOrRiderect } from "components/auth";
 
 export default function Index() {
+  const isLoggedIn = useLoggedInOrRiderect();
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const router = useRouter();
   useEffect(() => {
-    router.replace("/login/");
+    router.replace("/admin/dashboard/");
   }, []);
 
   return (

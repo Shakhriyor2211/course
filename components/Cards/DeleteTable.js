@@ -18,25 +18,25 @@ function DeleteTable({ table }) {
         </div>
         <div className="block w-full overflow-x-auto p-4">
           {/* Projects table */}
-          <table className="items-center w-full p-4 bg-transparent border-collapse">
+          <table className="w-full p-4 bg-transparent">
             <thead>
               <tr>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   ID
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   First name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   Last name
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   Phone
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   Join Date
                 </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
+                <th className="text-center py-3 text-sm uppercase font-semibold">
                   Sabab
                 </th>
               </tr>
@@ -45,22 +45,12 @@ function DeleteTable({ table }) {
               {table.accounts.map((item) => {
                 return (
                   <tr key={item.id}>
-                    <th className="border-t-0 font-bold px1 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-2 text-center">
-                      {item.id}
-                    </th>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.first_name}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.last_name}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.phone_number}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.join}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                    <th className="font-bold text-sm text-center">{item.id}</th>
+                    <td className="text-sm text-center">{item.first_name}</td>
+                    <td className="text-sm text-center">{item.last_name}</td>
+                    <td className="text-sm text-center">{item.phone_number}</td>
+                    <td className="text-sm text-center">{item.join}</td>
+                    <td className="text-sm text-center">
                       {item.delete_cause === null
                         ? "Not given"
                         : item.delete_cause}

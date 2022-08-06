@@ -9,7 +9,6 @@ function Update({ user }) {
   const [fnameInp, setFnameInp] = useState(user.first_name);
   const [lnameInp, setLnameInp] = useState(user.last_name);
   const router = useRouter();
-  console.log(user.id);
   function submit(e) {
     e.preventDefault();
     axios

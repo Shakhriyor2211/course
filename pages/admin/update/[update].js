@@ -1,19 +1,31 @@
-// components
-
 import axios from "axios";
-
-// layout for page
-
 import Admin from "layouts/Admin.js";
 import { useRouter } from "next/router";
 import Update from "components/Update";
+import useAsyncLoader from "components/useAsyncLoader";
+import { useLoggedInOrRiderect } from "components/auth";
 
-export default function UpdatePage({ data }) {
-  console.log(data);
+export default function UpdatePage() {
   const router = useRouter();
+  const { update } = router.query;
+  const isLoggedIn = useLoggedInOrRiderect();
 
-  if (router.isFallback) {
-    return <p>Loading</p>;
+  const { isLoading, notFound, error, data } = useAsyncLoader({
+    url: `/api/account/${update}/edit/`,
+  });
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  if (isLoading) {
+    return "Loading";
+  }
+  if (notFound) {
+    return "Not Found";
+  }
+  if (error) {
+    return "ERROR";
   }
 
   return (
@@ -28,26 +40,3 @@ export default function UpdatePage({ data }) {
 }
 
 UpdatePage.layout = Admin;
-
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
-export const getStaticProps = async (context) => {
-  const { params } = context;
-  const { data } = await axios.get(
-    `http://127.0.0.1:8000/api/account/${params.update}/edit/`
-  );
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: { data },
-  };
-};
