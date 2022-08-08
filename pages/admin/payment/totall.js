@@ -2,9 +2,9 @@ import React from "react";
 
 import Admin from "layouts/Admin.js";
 
-import TotallPayments from "components/Cards/totallPayments";
 import useAsyncLoader from "components/useAsyncLoader";
 import { useLoggedInOrRiderect } from "components/auth";
+import TotallPayments from "components/Cards/TotallPayments";
 
 export default function HistoryPage() {
   const isLoggedIn = useLoggedInOrRiderect();
