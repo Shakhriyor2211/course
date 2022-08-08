@@ -58,7 +58,7 @@ function Update({ user }) {
             onChange={(value) => setPhoneInp(value)}
           />
           <input
-            className="px-6 py-2 rounded bg-lightBlue-600 text-sm text-white"
+            className="px-6 py-2 rounded bg-lightBlue-600 text-sm text-white cursor-pointer"
             type={"submit"}
             value="Submit"
           />

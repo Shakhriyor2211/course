@@ -69,99 +69,104 @@ export default function CardTable({ color, users }) {
         </div>
         <div className="block w-full overflow-x-auto p-4">
           {/* Projects table */}
-          <table className="items-center w-full p-4 bg-transparent border-collapse">
-            <thead>
-              <tr>
-                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  ID
-                </th>
-                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  Name
-                </th>
+          <div className="rounded overflow-hidden">
+            <table className="items-center w-full p-4 bg-transparent">
+              <thead>
+                <tr className="bg-blueGray-400 text-white">
+                  <th className="align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold">
+                    ID
+                  </th>
+                  <th className="align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold">
+                    Name
+                  </th>
 
-                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  Phone
-                </th>
+                  <th className="align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold">
+                    Phone
+                  </th>
 
-                {month.map((item, i) => {
-                  return (
-                    <th
-                      key={i}
-                      className={
-                        "align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left " +
-                        (item === lesson_number && "bg-emerald-500 text-white")
-                      }
-                    >
-                      {item}
-                    </th>
+                  {month.map((item, i) => {
+                    return (
+                      <th
+                        key={i}
+                        className={`align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold ${
+                          item === lesson_number &&
+                          "bg-lightBlue-600 text-white"
+                        }`}
+                      >
+                        {item}
+                      </th>
+                    );
+                  })}
+                  <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold px-2">
+                    Summa
+                  </th>
+                  <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold px-2">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {users?.account.map((el, i) => {
+                  const payments = sum(
+                    el.payment,
+                    el.oquvchi_narxi,
+                    el.start_course
                   );
-                })}
-                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  Summa
-                </th>
-                <th className="align-middle text-center py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.account.map((el) => {
-                const payments = sum(
-                  el.payment,
-                  el.oquvchi_narxi,
-                  el.start_course
-                );
-                let check = true;
-                if (
-                  el.first_name == "Unknown" &&
-                  el.last_name == "Unknown" &&
-                  el.phone_number == "Unknown"
-                ) {
-                  check = false;
-                }
+                  let check = true;
+                  if (
+                    el.first_name == "Unknown" &&
+                    el.last_name == "Unknown" &&
+                    el.phone_number == "Unknown"
+                  ) {
+                    check = false;
+                  }
 
-                return check ? (
-                  <tr key={el.id}>
-                    <th className="font-bold align-middle text-xs whitespace-nowrap p-2 text-center">
-                      {el.id}
-                    </th>
-                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
-                      {el.first_name} {el.last_name}
-                    </td>
-                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
-                      {el.phone_number}
-                    </td>
-                    {payments.map((payment, i) => {
-                      return (
-                        i < 10 && (
-                          <Payment
-                            paid={payment.paid}
-                            status={payment.status}
-                            key={i}
-                            index={i}
-                          />
-                        )
-                      );
-                    })}
-                    <td className="align-middle text-xs text-center whitespace-nowrap p-2">
-                      <NumberFormat
-                        value={el.oquvchi_narxi}
-                        className="foo font-bold"
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        renderText={(value, props) => (
-                          <div {...props}>{value}</div>
-                        )}
-                      />
-                    </td>
-                    <td className="align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
-                      <DropDown id={el.id} data={el} />
-                    </td>
-                  </tr>
-                ) : null;
-              })}
-            </tbody>
-          </table>
+                  return check ? (
+                    <tr
+                      className={`${i % 2 != 0 && "bg-blueGray-200"}`}
+                      key={el.id}
+                    >
+                      <th className="font-bold align-middle text-xs whitespace-nowrap py-4 px-2 text-center">
+                        {el.id}
+                      </th>
+                      <td className="align-middle text-xs text-center whitespace-nowrap py-4 px-2">
+                        {el.first_name} {el.last_name}
+                      </td>
+                      <td className="align-middle text-xs text-center whitespace-nowrap py-4 px-2">
+                        {el.phone_number}
+                      </td>
+                      {payments.map((payment, i) => {
+                        return (
+                          i < 10 && (
+                            <Payment
+                              paid={payment.paid}
+                              status={payment.status}
+                              key={i}
+                              index={i}
+                            />
+                          )
+                        );
+                      })}
+                      <td className="align-middle text-xs text-center whitespace-nowrap p-2">
+                        <NumberFormat
+                          value={el.oquvchi_narxi}
+                          className="foo font-bold"
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          renderText={(value, props) => (
+                            <div {...props}>{value}</div>
+                          )}
+                        />
+                      </td>
+                      <td className="align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
+                        <DropDown id={el.id} data={el} />
+                      </td>
+                    </tr>
+                  ) : null;
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

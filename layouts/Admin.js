@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-
-// components
-
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FooterAdmin from "components/Footers/FooterAdmin.js";
 import HeaderStats from "components/Headers/HeaderStats";
 import HeaderLink from "components/Headers/HeaderLink";
 import { useRouter } from "next/router";

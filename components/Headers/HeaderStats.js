@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-// components
-
 import { leave, newUser, warning } from "components/utils/icon";
 import Link from "next/link";
 import CourseLeave from "components/Course/courseLeave";
@@ -11,7 +9,6 @@ export default function HeaderStats({ totall }) {
   const [courseLeave, setCourseLeave] = useState(false);
   const [user, setUser] = useState([]);
   const [data, setData] = useState([]);
-  const [removed, setRemoved] = useState([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -20,7 +17,6 @@ export default function HeaderStats({ totall }) {
       .get("/api/leaveaccount/")
       .then(function (response) {
         setUser(response.data);
-        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);

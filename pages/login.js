@@ -10,7 +10,7 @@ function Login() {
   const user = useUser();
   const [error, setError] = useState("");
   if (user) {
-    router.push(router.query.next ?? "/admin/dashboard");
+    router.push(router.query.next ?? "/");
   }
   function submit(e) {
     e.preventDefault();
@@ -25,7 +25,6 @@ function Login() {
       })
       .catch(function (err) {
         setError(err);
-        console.log(err);
       });
   }
   return (
@@ -63,10 +62,18 @@ function Login() {
               />
             </div>
 
+            {error && (
+              <span className="text-red-600">
+                {error.response.status === 400
+                  ? "Incorrect username or password"
+                  : "Bad network connection"}
+              </span>
+            )}
+
             <div className="text-center mt-12 lg:text-left">
               <input
                 type="submit"
-                className="inline-block px-7 py-3 bg-lightBlue-600 text-white font-medium text-sm uppercase rounded "
+                className="inline-block px-7 py-3 bg-lightBlue-600 text-white font-medium text-sm uppercase rounded cursor-pointer"
                 value={"kirish"}
               />
             </div>

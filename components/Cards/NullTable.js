@@ -9,79 +9,83 @@ function NullTable({ table }) {
   return (
     <>
       <div className="relative bg-white flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded ">
-        <div className="rounded-t mb-0 pl-4 pt-4 border-0">
+        <div className="rounded-t mb-0 pt-4 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
-              <h3 className="font-semibold text-lg ">{table.name}</h3>
+              <h3 className="font-semibold text-lg ml-4">{table.name}</h3>
             </div>
           </div>
         </div>
         <div className="block w-full overflow-x-auto p-4">
-          {/* Projects table */}
-          <table className="items-center w-full p-4 bg-transparent border-collapse">
-            <thead>
-              <tr>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  ID
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  First name
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  Last name
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  Phone
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  Join Date
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  Kurs narxi
-                </th>
-                <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold text-left ">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {table.accounts.map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <th className="border-t-0 font-bold px1 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-2 text-center">
-                      {item.id}
-                    </th>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.first_name}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.last_name}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.phone_number}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      {item.join}
-                    </td>
-                    <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                      <NumberFormat
-                        value={item.oquvchi_narxi}
-                        className="foo"
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        renderText={(value, props) => (
-                          <div {...props}>{value}</div>
-                        )}
-                      />
-                    </td>
-                    <td className="border-t-0 align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
-                      <DropDown user={item} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="rounded overflow-hidden">
+            <table className="items-center w-full p-4 bg-transparent border-collapse">
+              <thead>
+                <tr className="bg-blueGray-400 text-white">
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    ID
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    First name
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    Last name
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    Phone
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    Join Date
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    Kurs narxi
+                  </th>
+                  <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {table.accounts.map((item, i) => {
+                  return (
+                    <tr
+                      className={`${i % 2 != 0 && "bg-blueGray-200"}`}
+                      key={item.id}
+                    >
+                      <th className="border-t-0 font-bold px1 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-2 text-center">
+                        {item.id}
+                      </th>
+                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                        {item.first_name}
+                      </td>
+                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                        {item.last_name}
+                      </td>
+                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                        {item.phone_number}
+                      </td>
+                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                        {item.join}
+                      </td>
+                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                        <NumberFormat
+                          value={item.oquvchi_narxi}
+                          className="foo"
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          renderText={(value, props) => (
+                            <div {...props}>{value}</div>
+                          )}
+                        />
+                      </td>
+                      <td className="border-t-0 align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
+                        <DropDown user={item} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

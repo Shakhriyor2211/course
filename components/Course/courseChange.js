@@ -49,7 +49,7 @@ export default function CourseChange({ modalState, users, id }) {
       >
         <p className="text-xl mb-8 text-center">Guruh almashtirish</p>
         <Select
-          className="my-8 text-left"
+          className="my-8 text-left w-60"
           onChange={setCourse}
           options={courseData}
           instanceId
