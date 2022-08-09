@@ -13,7 +13,7 @@ function CourseArrear({ users }) {
               <thead>
                 <tr className="bg-blueGray-400 text-white">
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
-                    ID
+                    №
                   </th>
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                     First name
@@ -40,7 +40,7 @@ function CourseArrear({ users }) {
                       key={item.id}
                     >
                       <th className="font-bold px1 align-middle text-sm whitespace-nowrap p-2 text-center">
-                        {item.id}
+                        {i + 1}
                       </th>
                       <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
                         {item.first_name}

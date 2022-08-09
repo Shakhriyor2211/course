@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { createPopper } from "@popperjs/core";
 
-// components
-
 import { default as NumberFormat } from "react-number-format";
 import Link from "next/link";
 import History from "components/Payment/history";
@@ -14,7 +12,7 @@ import DeleteStudent from "components/Course/deleteStudent";
 export default function CardTable({ color, users }) {
   let lesson_number = parseInt(users.lesson_number / 12 + 1);
   const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+  console.log(users);
   function sum(payments, total_price, start) {
     let s = 0;
 
@@ -58,11 +56,11 @@ export default function CardTable({ color, users }) {
             <div className="relative w-full max-w-full flex-grow flex-1">
               <h3
                 className={
-                  "font-semibold text-lg " +
+                  "font-semibold text-lg uppercase " +
                   (color === "light" ? "text-blueGray-700" : "text-white")
                 }
               >
-                Student Payments
+                {users.name}
               </h3>
             </div>
           </div>

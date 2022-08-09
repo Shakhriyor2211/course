@@ -5,7 +5,9 @@ function CourseAllArrear({ users }) {
     <div className="rounded-t mb-0 pt-4 border-0">
       <div className="flex flex-wrap items-center">
         <div className="relative w-full max-w-full flex-grow flex-1">
-          <h3 className="font-semibold text-lg ml-4">Qarzdorlar royxati</h3>
+          <h3 className="font-semibold text-lg ml-4">
+            O'ta qarzdorlar royxati
+          </h3>
         </div>
         <div className="block w-full overflow-x-auto p-4">
           <div className="rounded overflow-hidden">
@@ -13,7 +15,7 @@ function CourseAllArrear({ users }) {
               <thead>
                 <tr className=" bg-blueGray-400 text-white">
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
-                    ID
+                    №
                   </th>
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                     First name
@@ -40,7 +42,7 @@ function CourseAllArrear({ users }) {
                       key={item.id}
                     >
                       <th className="font-bold px1 align-middle text-sm whitespace-nowrap py-3 px-2 text-center">
-                        {item.id}
+                        {i + 1}
                       </th>
                       <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.first_name}

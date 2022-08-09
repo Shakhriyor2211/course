@@ -23,7 +23,7 @@ function DeleteTable({ table }) {
                 <thead>
                   <tr className="bg-blueGray-400 text-white">
                     <th className="text-center py-3 text-sm uppercase font-semibold">
-                      ID
+                      №
                     </th>
                     <th className="text-center py-3 text-sm uppercase font-semibold">
                       First name
@@ -50,7 +50,7 @@ function DeleteTable({ table }) {
                         key={item.id}
                       >
                         <th className="font-bold text-sm text-center px-2 py-3">
-                          {item.id}
+                          {i + 1}
                         </th>
                         <td className="text-sm text-center px-2 py-3">
                           {item.first_name}

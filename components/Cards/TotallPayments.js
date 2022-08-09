@@ -101,7 +101,7 @@ function ChangeHistory({ user, index }) {
           Tolovni ozgartirish
         </td>
         {visible && (
-          <td>
+          <td className="fixed inset-0">
             <ChangePayment
               user={user}
               user_id={user.account.id}

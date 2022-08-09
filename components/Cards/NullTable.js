@@ -21,7 +21,7 @@ function NullTable({ table }) {
               <thead>
                 <tr className="bg-blueGray-400 text-white">
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
-                    ID
+                    №
                   </th>
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                     First name
