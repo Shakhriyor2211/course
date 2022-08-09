@@ -49,20 +49,22 @@ function DeleteTable({ table }) {
                         className={`${i % 2 != 0 && "bg-blueGray-200"}`}
                         key={item.id}
                       >
-                        <th className="font-bold text-sm text-center">
+                        <th className="font-bold text-sm text-center px-2 py-3">
                           {item.id}
                         </th>
-                        <td className="text-sm text-center">
+                        <td className="text-sm text-center px-2 py-3">
                           {item.first_name}
                         </td>
-                        <td className="text-sm text-center">
+                        <td className="text-sm text-center px-2 py-3">
                           {item.last_name}
                         </td>
-                        <td className="text-sm text-center">
+                        <td className="text-sm text-center px-2 py-3">
                           {item.phone_number}
                         </td>
-                        <td className="text-sm text-center">{item.join}</td>
-                        <td className="text-sm text-center">
+                        <td className="text-sm text-center px-2 py-3">
+                          {item.join}
+                        </td>
+                        <td className="text-sm text-center px-2 py-3">
                           {item.delete_cause === null
                             ? "Not given"
                             : item.delete_cause}

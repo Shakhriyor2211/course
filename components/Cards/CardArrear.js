@@ -53,7 +53,7 @@ function CourseArrear({ users }) {
                       </td>
                       <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
                         <NumberFormat
-                          value={item.price}
+                          value={item.qarzi}
                           className="foo text-red-600"
                           displayType={"text"}
                           thousandSeparator={true}

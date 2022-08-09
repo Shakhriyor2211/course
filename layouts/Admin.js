@@ -27,7 +27,6 @@ export default function Admin({ children }) {
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         <AdminNavbar />
-        {/* Header */}
         <div className="relative bg-blueGray-800 md:pt-32 pb-32 pt-12">
           <HeaderLink />
           {router.asPath === "/admin/dashboard/" && (

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CourseChange from "components/Course/courseChange";
 import ChangePrice from "components/Payment/changePrice";
 import Link from "next/link";
 import { createPopper } from "@popperjs/core";
@@ -51,22 +50,22 @@ function NullTable({ table }) {
                       className={`${i % 2 != 0 && "bg-blueGray-200"}`}
                       key={item.id}
                     >
-                      <th className="border-t-0 font-bold px1 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-2 text-center">
-                        {item.id}
+                      <th className="border-t-0 font-bold px1 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-3 px-2 text-center">
+                        {i + 1}
                       </th>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.first_name}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.last_name}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.phone_number}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.join}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         <NumberFormat
                           value={item.oquvchi_narxi}
                           className="foo"
@@ -77,7 +76,7 @@ function NullTable({ table }) {
                           )}
                         />
                       </td>
-                      <td className="border-t-0 align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none p-2">
+                      <td className="border-t-0 align-middle text-xs text-center whitespace-nowrap cursor-pointer select-none py-3 px-2">
                         <DropDown user={item} />
                       </td>
                     </tr>

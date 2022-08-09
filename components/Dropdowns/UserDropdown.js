@@ -34,7 +34,7 @@ const UserDropdown = () => {
         >
           <div className="items-center flex">
             <span className="w-12 h-12 text-sm text-white bg-purple-500 inline-flex items-center justify-center rounded-full">
-              SM
+              {`${user?.first_name[0]}${user?.last_name[0]}`}
             </span>
           </div>
         </div>

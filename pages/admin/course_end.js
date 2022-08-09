@@ -1,13 +1,13 @@
 import Admin from "layouts/Admin.js";
-import CourseAllArrear from "components/Cards/CardAllArrear";
 import useAsyncLoader from "components/useAsyncLoader";
 import { useLoggedInOrRiderect } from "components/auth";
+import EndCourse from "components/Cards/CardCourseEnd";
 
-export default function AllArrear() {
+export default function CourseEnd() {
   const isLoggedIn = useLoggedInOrRiderect();
 
   const { isLoading, notFound, error, data } = useAsyncLoader({
-    url: "/api/statusapi/",
+    url: "/api/stoppedcourse/",
   });
 
   if (!isLoggedIn) {
@@ -29,7 +29,7 @@ export default function AllArrear() {
       <div className="flex flex-wrap mt-4">
         <div className="w-full mb-12 px-4">
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
-            <CourseAllArrear users={data} />
+            <EndCourse course={data} />
           </div>
         </div>
       </div>
@@ -37,4 +37,4 @@ export default function AllArrear() {
   );
 }
 
-AllArrear.layout = Admin;
+CourseEnd.layout = Admin;

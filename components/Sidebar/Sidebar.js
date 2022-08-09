@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { leave, warning } from "components/utils/icon";
+import CourseLeave from "components/Course/courseLeave";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
   const router = useRouter();
   const [tableShow, setTableShow] = useState(false);
   const [data, setData] = useState(null);
-  const [leave, setLeave] = useState(null);
+  const [courseLeave, setCourseLeave] = useState(false);
+  const [user, setUser] = useState([]);
   useEffect(() => {
+    let isMounted = true;
     axios
       .get("/api/courses/")
       .then(function (response) {
@@ -18,14 +22,18 @@ export default function Sidebar() {
       .catch(function (error) {
         console.log(error);
       });
+
     axios
       .get("/api/leaveaccount/")
       .then(function (response) {
-        setLeave(response.data);
+        setUser(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+    return () => {
+      isMounted = false;
+    };
   }, []);
   return (
     <>
@@ -128,8 +136,8 @@ export default function Sidebar() {
                       "text-xs cursor-pointer uppercase py-3 font-bold block text-blueGray-700 group-hover:text-blueGray-500"
                     }
                   >
-                    <i className="fas fa-table mr-2 text-sm text-blueGray-300"></i>{" "}
-                    Kurslar
+                    <i className="fas fa-users mr-2 text-sm text-blueGray-300"></i>{" "}
+                    o'quvchilar
                   </p>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -182,6 +190,29 @@ export default function Sidebar() {
               </li>
 
               <li className="items-center">
+                <Link href="/admin/courses/">
+                  <a
+                    className={
+                      "text-xs uppercase py-3 font-bold block " +
+                      (router.pathname.indexOf("/admin/courses") !== -1
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500")
+                    }
+                  >
+                    <i
+                      className={
+                        "fas fa-table mr-2 text-sm " +
+                        (router.pathname.indexOf("/admin/courses") !== -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    ></i>{" "}
+                    kurslar
+                  </a>
+                </Link>
+              </li>
+
+              <li className="items-center">
                 <Link href="/admin/payment/totall/">
                   <a
                     className={`text-xs uppercase py-3 font-bold flex items-center group ${
@@ -212,10 +243,113 @@ export default function Sidebar() {
                   </a>
                 </Link>
               </li>
+
+              <li className="items-center">
+                <Link href="/admin/users/new_users/">
+                  <a
+                    className={
+                      "text-xs uppercase py-3 font-bold block " +
+                      (router.pathname.indexOf("/admin/users/new_users") !== -1
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500")
+                    }
+                  >
+                    <i
+                      className={
+                        "fas fa-users mr-2 text-sm " +
+                        (router.pathname.indexOf("/admin/users/new_users") !==
+                        -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    ></i>{" "}
+                    yangi o'quvchilar
+                  </a>
+                </Link>
+              </li>
+
+              <li className="items-center">
+                <Link href="/admin/course_end/">
+                  <a
+                    className={`text-xs uppercase py-3 font-bold flex items-center group ${
+                      router.asPath === `/admin/course_end/`
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500"
+                    }`}
+                  >
+                    <div
+                      className={`h-5 w-5 group-hover:text-blueGray-500" ${
+                        router.asPath === "/admin/course_end/"
+                          ? "text-lightBlue-500 hover:text-lightBlue-600"
+                          : "text-blueGray-300 hover:text-blueGray-500"
+                      }`}
+                    >
+                      {leave}
+                    </div>
+
+                    <span className="ml-2">tugatilgan guruhlar</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className="items-center cursor-pointer"
+                onClick={() => setCourseLeave(true)}
+              >
+                <div className="text-xs uppercase py-3 font-bold flex items-center">
+                  <div className="w-5 h-5 text-blueGray-300">{warning}</div>
+                  <span className="ml-2">chiqib ketkanlar</span>
+                </div>
+              </li>
+              <li className="items-center">
+                <Link href="/admin/users/deleted/">
+                  <a
+                    className={`text-xs uppercase py-3 font-bold flex items-center group ${
+                      router.asPath === `/admin/users/deleted/`
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`h-5 w-5 group-hover:text-blueGray-500" ${
+                        router.asPath === "/admin/users/deleted/"
+                          ? "text-lightBlue-500 hover:text-lightBlue-600"
+                          : "text-blueGray-300 hover:text-blueGray-500"
+                      }`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                      />
+                    </svg>
+
+                    <span className="ml-2">kursni tark etkanlar</span>
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
       </nav>
+
+      {courseLeave && (
+        <>
+          <div
+            className="fixed inset-0 z-90"
+            onClick={() => {
+              setCourseLeave(false);
+            }}
+          ></div>
+          <div className="fixed top-0 bottom-0 bg-white z-100 right-0 px-6 py-4 shadow-lg text-left overflow-y-scroll min-w-300-px">
+            <CourseLeave data={user} />
+          </div>
+        </>
+      )}
     </>
   );
 }

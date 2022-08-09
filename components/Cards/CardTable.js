@@ -74,7 +74,7 @@ export default function CardTable({ color, users }) {
               <thead>
                 <tr className="bg-blueGray-400 text-white">
                   <th className="align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold">
-                    ID
+                    №
                   </th>
                   <th className="align-middle text-center py-3 px-2 text-xs uppercase whitespace-nowrap font-semibold">
                     Name
@@ -127,7 +127,7 @@ export default function CardTable({ color, users }) {
                       key={el.id}
                     >
                       <th className="font-bold align-middle text-xs whitespace-nowrap py-4 px-2 text-center">
-                        {el.id}
+                        {i + 1}
                       </th>
                       <td className="align-middle text-xs text-center whitespace-nowrap py-4 px-2">
                         {el.first_name} {el.last_name}

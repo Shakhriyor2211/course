@@ -1,7 +1,6 @@
 import { default as NumberFormat } from "react-number-format";
 
 function CourseAllArrear({ users }) {
-  console.log(users);
   return (
     <div className="rounded-t mb-0 pt-4 border-0">
       <div className="flex flex-wrap items-center">
@@ -40,19 +39,19 @@ function CourseAllArrear({ users }) {
                       className={`${i % 2 != 0 && "bg-blueGray-200"}`}
                       key={item.id}
                     >
-                      <th className="font-bold px1 align-middle text-sm whitespace-nowrap p-2 text-center">
+                      <th className="font-bold px1 align-middle text-sm whitespace-nowrap py-3 px-2 text-center">
                         {item.id}
                       </th>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.first_name}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.last_name}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         {item.phone_number}
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         <NumberFormat
                           value={item.qarzi}
                           className="foo text-red-600"
@@ -64,7 +63,7 @@ function CourseAllArrear({ users }) {
                           )}
                         />
                       </td>
-                      <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
+                      <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
                         <NumberFormat
                           value={item.oquvchi_narxi}
                           className="foo"

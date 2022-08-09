@@ -1,7 +1,8 @@
+import ChangePayment from "components/Payment/changePayment";
+import { useState } from "react";
 import { default as NumberFormat } from "react-number-format";
 
 function TotallPayments({ payments }) {
-  console.log(payments);
   return (
     <>
       <div className="rounded-t bg-white mb-0 pt-4 border-0">
@@ -15,7 +16,7 @@ function TotallPayments({ payments }) {
                 <thead>
                   <tr className="text-white bg-blueGray-400">
                     <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
-                      ID
+                      №
                     </th>
                     <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                       First name
@@ -32,51 +33,15 @@ function TotallPayments({ payments }) {
                     <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                       Kurs narxi
                     </th>
+                    <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {payments?.map((item, i) => {
                     return (
-                      <tr
-                        className={`${i % 2 != 0 && "bg-blueGray-200"}`}
-                        key={item.id}
-                      >
-                        <th className="font-bold px1 align-middle text-sm whitespace-nowrap p-2 text-center">
-                          {item.id}
-                        </th>
-                        <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                          {item.account.first_name}
-                        </td>
-                        <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                          {item.account.last_name}
-                        </td>
-                        <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                          {item.title}
-                        </td>
-                        <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                          <NumberFormat
-                            value={item.price}
-                            className="foo text-emerald-500"
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix="+"
-                            renderText={(value, props) => (
-                              <div {...props}>{value}</div>
-                            )}
-                          />
-                        </td>
-                        <td className=" align-middle text-sm text-center whitespace-nowrap p-2">
-                          <NumberFormat
-                            value={item.account.oquvchi_narxi}
-                            className="foo"
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            renderText={(value, props) => (
-                              <div {...props}>{value}</div>
-                            )}
-                          />
-                        </td>
-                      </tr>
+                      <ChangeHistory user={item} index={i} key={item.id} />
                     );
                   })}
                 </tbody>
@@ -90,3 +55,61 @@ function TotallPayments({ payments }) {
 }
 
 export default TotallPayments;
+
+function ChangeHistory({ user, index }) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <>
+      <tr className={`${index % 2 != 0 && "bg-blueGray-200"}`}>
+        <th className="font-bold px1 align-middle text-sm whitespace-nowrap py-3 px-2 text-center">
+          {index + 1}
+        </th>
+        <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
+          {user.account.first_name}
+        </td>
+        <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
+          {user.account.last_name}
+        </td>
+        <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
+          {user.title}
+        </td>
+        <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
+          <NumberFormat
+            value={user.price}
+            className="foo text-emerald-500"
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix="+"
+            renderText={(value, props) => <div {...props}>{value}</div>}
+          />
+        </td>
+        <td className=" align-middle text-sm text-center whitespace-nowrap py-3 px-2">
+          <NumberFormat
+            value={user.account.oquvchi_narxi}
+            className="foo"
+            displayType={"text"}
+            thousandSeparator={true}
+            renderText={(value, props) => <div {...props}>{value}</div>}
+          />
+        </td>
+        <td
+          className="text-center text-sm underline text-lightBlue-500 cursor-pointer font-semibold"
+          onClick={() => {
+            setVisible(true);
+          }}
+        >
+          Tolovni ozgartirish
+        </td>
+        {visible && (
+          <td>
+            <ChangePayment
+              user={user}
+              user_id={user.account.id}
+              modalState={setVisible}
+            />
+          </td>
+        )}
+      </tr>
+    </>
+  );
+}
