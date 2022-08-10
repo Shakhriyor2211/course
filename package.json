@@ -21,8 +21,8 @@
   },
   "scripts": {
     "dev": "node server.js",
-    "start": "NODE_ENV=production node server.js",
     "build": "next build",
+    "start": "NODE_ENV=production node server.js",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm run dev",
     "build:tailwind": "tailwind build styles/index.css -o styles/tailwind.css"
   },
