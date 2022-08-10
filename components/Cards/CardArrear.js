@@ -11,7 +11,7 @@ function CourseArrear({ users }) {
           <div className="rounded overflow-hidden">
             <table className="items-center w-full p-4 bg-transparent border-collapse">
               <thead>
-                <tr className="bg-blueGray-400 text-white">
+                <tr className="bg-blueGray-400 text-white ">
                   <th className="align-middle text-center py-3 text-sm uppercase whitespace-nowrap font-semibold">
                     №
                   </th>
