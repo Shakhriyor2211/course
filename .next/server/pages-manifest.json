@@ -1,0 +1,19 @@
+{
+  "/404": "pages/404.html",
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/admin/course_end": "pages/admin/course_end.html",
+  "/admin/courses": "pages/admin/courses.html",
+  "/admin/dashboard": "pages/admin/dashboard.html",
+  "/admin/payment": "pages/admin/payment.html",
+  "/admin/payment/totall": "pages/admin/payment/totall.html",
+  "/admin/tables/[id]": "pages/admin/tables/[id].html",
+  "/admin/update/[update]": "pages/admin/update/[update].html",
+  "/admin/users/all_arrear": "pages/admin/users/all_arrear.html",
+  "/admin/users/current_arrear": "pages/admin/users/current_arrear.html",
+  "/admin/users/deleted": "pages/admin/users/deleted.html",
+  "/admin/users/new_users": "pages/admin/users/new_users.html",
+  "/": "pages/index.html",
+  "/login": "pages/login.html"
+}
